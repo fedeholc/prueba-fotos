@@ -8,7 +8,6 @@ function App() {
   const [isOpen, setIsOpen] = useState(false);
   return (
     <>
-      <button>open</button>
       <button onClick={() => setIsOpen(true)}>Open Modal</button>
       {isOpen && (
         <Modal>
@@ -18,9 +17,17 @@ function App() {
               width: "100%",
               display: "flex",
               flexDirection: "column",
+              position: "relative",
             }}
           >
-            <div>
+            <div
+              style={{
+                position: "absolute",
+                top: "10px",
+                left: "50%",
+                transform: "translateX(-50%)",
+              }}
+            >
               <button onClick={() => setIsOpen(false)}>Close Modal</button>
             </div>
             <img
