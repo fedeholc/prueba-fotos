@@ -1,14 +1,56 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 import foto1 from "./assets/a.webp";
+import foto2 from "./assets/b.webp";
+import react from "./assets/react.svg";
 
 // https://blog.logrocket.com/guide-css-object-view-box/ zoom pan
 
 function App() {
   const [isOpen, setIsOpen] = useState(false);
+  const imagesList = [foto1, foto2, react];
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  useEffect(() => {
+    function handleKeyDown(event: KeyboardEvent) {
+      if (event.key === "Escape") {
+        setIsOpen(false);
+      }
+      if (event.key === "ArrowRight") {
+        setCurrentImageIndex((prevIndex) =>
+          prevIndex === imagesList.length - 1 ? 0 : prevIndex + 1
+        );
+      }
+      if (event.key === "ArrowLeft") {
+        setCurrentImageIndex((prevIndex) =>
+          prevIndex === 0 ? imagesList.length - 1 : prevIndex - 1
+        );
+      }
+    }
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [imagesList.length]);
+
   return (
     <>
-      <button onClick={() => setIsOpen(true)}>Open Modal</button>
+      {imagesList &&
+        imagesList.length > 0 &&
+        imagesList.map((image, index) => (
+          <img
+            height="250px"
+            key={index}
+            src={image}
+            alt={`Foto ${index + 1}`}
+            onClick={() => {
+              setCurrentImageIndex(index);
+              setIsOpen(true);
+            }}
+          />
+        ))}
+
       {isOpen && (
         <Modal>
           <div
@@ -20,20 +62,35 @@ function App() {
               position: "relative",
             }}
           >
-            <div
-              style={{
-                position: "absolute",
-                top: "10px",
-                left: "50%",
-                transform: "translateX(-50%)",
-              }}
-            >
-              <button onClick={() => setIsOpen(false)}>Close Modal</button>
+            <div className="pic__top-controls">
+              <button onClick={() => setIsOpen(false)}>&#10008;</button>
+            </div>
+            <div className="pic__right-controls">
+              <button
+                onClick={() => {
+                  setCurrentImageIndex((prevIndex) =>
+                    prevIndex === imagesList.length - 1 ? 0 : prevIndex + 1
+                  );
+                }}
+              >
+                &#10095;
+              </button>
+            </div>
+            <div className="pic__left-controls">
+              <button
+                onClick={() => {
+                  setCurrentImageIndex((prevIndex) =>
+                    prevIndex === 0 ? imagesList.length - 1 : prevIndex - 1
+                  );
+                }}
+              >
+                &#10094;
+              </button>
             </div>
             <img
               style={{ height: "100%", width: "100%", objectFit: "contain" }}
-              src={foto1}
-              alt="Foto 1"
+              src={imagesList[currentImageIndex]}
+              alt={`Foto ${currentImageIndex + 1}`}
             />
           </div>
         </Modal>

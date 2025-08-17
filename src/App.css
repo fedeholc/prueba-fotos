@@ -11,9 +11,11 @@
   will-change: filter;
   transition: filter 300ms;
 }
+
 .logo:hover {
   filter: drop-shadow(0 0 2em #646cffaa);
 }
+
 .logo.react:hover {
   filter: drop-shadow(0 0 2em #61dafbaa);
 }
@@ -22,6 +24,7 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
@@ -39,4 +42,75 @@
 
 .read-the-docs {
   color: #888;
+}
+
+/*       style= {
+          {
+          position: "absolute",
+            top: "10px",
+            left: "50%",
+            transform: "translateX(-50%)",
+        }
+      } */
+.pic__top-controls {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  /* transform: translateX(-50%); */
+  opacity: 0;
+  width: 100%;
+  justify-content: flex-end;
+  display: flex;
+  padding: 1rem;
+
+  &:hover {
+    opacity: 1;
+
+  }
+}
+
+.pic__right-controls {
+  position: absolute;
+  top: 50%;
+  right: 0px;
+  transform: translateY(-50%);
+  opacity: 0;
+  height: 80%;
+  justify-content: flex-end;
+  align-items: center;
+  display: flex;
+  padding: 1rem;
+  transition: all 0.2s ease-in-out;
+
+  &:hover {
+    opacity: 1;
+
+  }
+
+  button {
+    height: fit-content;
+  }
+}
+
+.pic__left-controls {
+  position: absolute;
+  top: 50%;
+  left: 0px;
+  transform: translateY(-50%);
+  opacity: 0;
+  height: 80%;
+  justify-content: flex-start;
+  align-items: center;
+  display: flex;
+  padding: 1rem;
+  transition: all 0.2s ease-in-out;
+
+  &:hover {
+    opacity: 1;
+
+  }
+
+  button {
+    height: fit-content;
+  }
 }
