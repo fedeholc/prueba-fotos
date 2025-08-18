@@ -87,8 +87,29 @@ function App() {
                 &#10094;
               </button>
             </div>
+            <div className="pic__bottom-controls">
+              <button
+                onClick={() => {
+                  const img = document.querySelector(
+                    "#img" + currentImageIndex.toString()
+                  );
+                  if (img && img instanceof HTMLImageElement) {
+                    img.style.transform = `rotate(${
+                      (parseFloat(
+                        img.style.transform
+                          .replace("rotate(", "")
+                          .replace("deg)", "")
+                      ) || 0) + 90
+                    }deg)`;
+                  }
+                }}
+              >
+                Rotate Right
+              </button>
+            </div>
             <img
               style={{ height: "100%", width: "100%", objectFit: "contain" }}
+              id={"img" + currentImageIndex.toString()}
               src={imagesList[currentImageIndex]}
               alt={`Foto ${currentImageIndex + 1}`}
             />
