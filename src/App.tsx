@@ -10,6 +10,8 @@ function App() {
   const [isOpen, setIsOpen] = useState(false);
   const imagesList = [foto1, foto2, react];
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  // Array para guardar el ángulo de rotación de cada imagen
+  const [rotations, setRotations] = useState(Array(imagesList.length).fill(0));
 
   useEffect(() => {
     function handleKeyDown(event: KeyboardEvent) {
@@ -90,25 +92,24 @@ function App() {
             <div className="pic__bottom-controls">
               <button
                 onClick={() => {
-                  const img = document.querySelector(
-                    "#img" + currentImageIndex.toString()
-                  );
-                  if (img && img instanceof HTMLImageElement) {
-                    img.style.transform = `rotate(${
-                      (parseFloat(
-                        img.style.transform
-                          .replace("rotate(", "")
-                          .replace("deg)", "")
-                      ) || 0) + 90
-                    }deg)`;
-                  }
+                  setRotations((prevRotations) => {
+                    const newRotations = [...prevRotations];
+                    newRotations[currentImageIndex] =
+                      (newRotations[currentImageIndex] + 90) % 360;
+                    return newRotations;
+                  });
                 }}
               >
                 Rotate Right
               </button>
             </div>
             <img
-              style={{ height: "100%", width: "100%", objectFit: "contain" }}
+              style={{
+                height: "100%",
+                width: "100%",
+                objectFit: "contain",
+                transform: `rotate(${rotations[currentImageIndex]}deg)`,
+              }}
               id={"img" + currentImageIndex.toString()}
               src={imagesList[currentImageIndex]}
               alt={`Foto ${currentImageIndex + 1}`}
